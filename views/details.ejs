@@ -1,0 +1,43 @@
+<%- include('partials/header') %> 
+
+
+
+
+<div class="detail-c">
+ <%if(tamount=="empty"){%>
+      <h3>"<%= secret %> "</h3>
+      <% }else{ %>
+        <h3>Total amount spent: <%= tamount %></h3>
+        <hr>
+     <% } %>
+
+ 
+  <form class="date-se" action="/search" method="post">
+    <input type="date" name="fdate" >
+    <input type="date" name="ldate" >
+    <button type="submit" >search</button>
+
+
+  </form>
+
+  <div class=detailss>
+      <% if(data=="enter"){ %>
+        <h3> enter the details</h3>
+        <% }else { %>
+    <% data.forEach(function(x){%>
+
+       <ul>
+        <li><%= x.reason %> |  <%=x.amount  %>  | <%=x.day  %>/<%=x.month  %>/<%=x.year  %></li>
+       </ul>
+
+  <% }) }%>   
+     
+   
+
+  </div>
+ 
+
+</div>
+
+<%- include('partials/footer') %>
+

@@ -1,0 +1,79 @@
+<%- include('partials/header') %>
+
+
+
+ <div class="Date-time">
+
+<div class="Date">   
+<%  var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = dd + '/' + mm + '/' + yyyy;%>
+
+<h3><%=today %></h3>
+</div>
+
+ <div class="time">
+
+ <% let time=new Date().toLocaleTimeString() %>
+ <h3><%=time %></h3>
+</div> 
+</div>
+
+<form  class="detail_btn" action="/detail" method="post">
+    <button class="dtl-btn" type="submit">Detailed</button>
+ </form>
+
+
+
+
+
+<div class="home-container"> 
+    <div> <h2>Total amount spent: <%= t_amount %></h2></div>
+    <div class="reason-c">
+    <form action="/add" method="post"> 
+    <div class="input-c">
+       <input type="text"  name="reson" placeholder="Reason">
+      
+     <input type="number" name="amount" placeholder="amount">
+   
+     <button type="submit">Add</button>  
+    </div>
+</form>
+
+    </div>
+
+    <div class="recentadds">
+         
+      <%    fulldata.slice().reverse().forEach (function(x){ %>
+           <ul>
+           
+            
+                <form action="/delete" method="post">
+                <li><%= x.reason %> | <%= x.amount %> rupees  | <%= x.day%>/<%= x.month%>/<%= x.year%>  
+                    <button class="deleter" type="submit" name="resdel" value= <%=x.eid%> >Del</button>
+                </form>
+            
+            </li>
+        </ul>
+       <%   }) %> 
+
+
+       
+
+       
+
+    </div>
+
+
+</div>
+<%- include('partials/footer') %>
+
+
+
+
+ 
+
+
