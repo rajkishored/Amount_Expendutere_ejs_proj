@@ -2,7 +2,7 @@ import express from "express"
 
 import bodyParser from "body-parser";
 import pg from "pg"
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import env from "dotenv";
 import axios from "axios";
 import session from "express-session";
@@ -79,7 +79,7 @@ app.post("/logpost",async(req,res)=>{
 
     
 
-    bcrypt.compare(password,result.rows[0].password,(err,result)=>{
+    bcryptjs.compare(password,result.rows[0].password,(err,result)=>{
 
        if(result ){
             // res.render("home.ejs",{
@@ -138,7 +138,7 @@ app.post("/regpost", async(req,res)=>{
      }
      else{
         
-        bcrypt.hash(rpassword,salt_rounds,async(err,hash)=>{
+        bcryptjs.hash(rpassword,salt_rounds,async(err,hash)=>{
             if(err){
                 res.send(err.stack)
             }  
