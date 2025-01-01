@@ -28,11 +28,19 @@ const db=new pg.Client({
  database:process.env.PG_DATABASE,
  user:process.env.PG_USER,
  password:process.env.PG_PASSWORD,
- port:5432
+ connectionString: process.env.DATABASE_URL,
+ port:5432,
+ ssl: { rejectUnauthorized: false },
 
 
 });
-db.connect();
+db.connect((err) => {
+    if (err) {
+      console.error("Error connecting to the database:", err.stack);
+    } else {
+      console.log("Connected to the database successfully!");
+    }
+  });
 
 
 
