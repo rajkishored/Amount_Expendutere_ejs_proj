@@ -2,12 +2,14 @@
 
 
 
-<form  class="reg-log" action="/regpost" method="post">
+<form id="loginForm" class="reg-log" action="/regpost" method="post">
 
  <div class="inner-reg">
-<input type="email" name="remail"  placeholder="email" required>
-<input type="password" name="rpsw" placeholder="password" required>
+<input id="email" type="email" name="remail"  placeholder="email" required>
+<input type="password" name="rpsw" placeholder="password" required minlength="4">
 <button type="submit">register</button>
 </div>  
 </form>
+<script>
+   
 

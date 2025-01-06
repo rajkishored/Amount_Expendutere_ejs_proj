@@ -71,66 +71,63 @@ app.get("/login",(req,res)=>{
 })
 
  //login
-app.post("/logpost",async(req,res)=>{
-
-   const namee=req.body.username
-   const password=req.body.psw
-
-   const result=await db.query("select * from users where email=$1",[namee])
-     
-   id=result.rows[0].id;
-    console.log(id);
-   
-   try{
-   if(result.rows.length>=1){
-    console.log(result.rows[0].password)
-
-    
-
-    bcryptjs.compare(password,result.rows[0].password,(err,result)=>{
-
-       if(result ){
-            // res.render("home.ejs",{
+ app.post("/logpost", async (req, res) => {
+    const namee = req.body.username;
+    const password = req.body.psw;
+  
+    // Define the regex for a valid email
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  
+    // Check if the email format is valid
+    if (!emailRegex.test(namee)) {
+      return res.send("Please enter a valid email address (e.g., xxx@gmail.com).");
+    }
+  
+    try {
+      // Fetch user details from the database based on the email
+      const result = await db.query("SELECT * FROM users WHERE email=$1", [namee]);
+  
+      // Check if user exists
+      if (result.rows.length >= 1) {
+        console.log(result.rows[0].password);
+        id=result.rows[0].id;
+  
+        // Compare entered password with hashed password from the database
+        bcryptjs.compare(password, result.rows[0].password, (err, isMatch) => {
+          if (err) {
+            console.error("Error during password comparison:", err);
            
-            //    fulldata:amo.rows,
-            //    t_amount:"200"
-    
-            // })
+          }
+  
+          if (isMatch) {
+          
             totao_amount(res);
-           
+          } else {
+            res.send("Wrong password.");
           }
-          else{
-             
-              res.send("wrong password")
-              
-          }
-         
-    })
-
-
-    
-
-   }
-   else{
-
-    res.send("register")
-   }
-   
-
-   }
-   catch(err){
-    res.json(err)
-    document.querySelector("input").innerHTML="wrong"
-   }
-
- 
-})
+        });
+      } else {
+        res.send("User not registered or Wrong fromate.");
+      }
+    } catch (err) {
+      console.error("Database error:", err);
+      
+    }
+  });
+  
 
 //register
 app.post("/regpost", async(req,res)=>{
     
     const rmail= req.body.remail;
     const rpassword=req.body.rpsw;
+
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  
+   
+    if (!emailRegex.test(rmail)) {
+      return res.send("Please enter a valid email address (e.g., xxx@gmail.com).");
+    }
 
     try{
 
@@ -170,8 +167,10 @@ app.post("/regpost", async(req,res)=>{
             res.send("retry");
         }
       } })
+      
 
      }
+     
      
     }
     catch(err)

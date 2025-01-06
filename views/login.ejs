@@ -1,14 +1,35 @@
 <%- include("./partials/header.ejs") %>
 
-
-
-
-<form  class="reg-log" action="/logpost" method="post">
-
-    <div class="inner-reg">
-<input type="email" name="username"  placeholder="email" required>
-<input type="password" name="psw" placeholder="password" required>
-<button type="submit">Login</button>
-</div>  
+<form id="login-v" class="reg-log" action="/logpost" method="post">
+  <div id="loginForm" class="inner-reg">
+    <input id="email" type="email" name="username" placeholder="email" required>
+    <input type="password" name="psw" placeholder="password" required>
+    <span class="error" id="error" style="color: red;"></span>
+    <button type="submit">Login</button>
+  </div>
 </form>
 
+<script>
+  document.getElementById("login-v").addEventListener("submit", function (event) {
+    const emailInput = document.getElementById("email").value; // Correctly access the email input
+    const errorElement = document.getElementById("error"); // Correctly access the error span
+
+    // Define the regex for a valid email
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    // Check if email is valid
+    if (!emailRegex.test(emailInput)) {
+      // Prevent form submission
+      event.preventDefault();
+
+      // Show error message
+      errorElement.textContent = "Please enter a valid email address (e.g., xxx@gmail.com).";
+
+      // Optionally focus on the email input for user convenience
+      document.getElementById("email").focus();
+    } else {
+      // Clear error message if valid
+      errorElement.textContent = "";
+    }
+  });
+</script>
