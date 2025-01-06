@@ -156,7 +156,7 @@ app.post("/regpost", async(req,res)=>{
                 const hashedpass=hash;
             console.log(hashedpass)
 
-      const insert=await db.query("insert into users(email,password) values($1,$2) returning*",[rmail,hashedpass])
+      const insert=await db.query("insert into users (email,password) values($1,$2) returning*",[rmail,hashedpass])
       
         
         if(insert.rows.length>0){
